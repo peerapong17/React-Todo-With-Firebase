@@ -1,25 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Todo from "./todo/todo";
+import Login from "./auth/login/login";
+import Register from "./auth/register/register";
+import ResetPassword from "./auth/resetPass/resetPassword";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
-function App() {
+function App(): JSX.Element {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" render={() => <Redirect to="/login" />} />
+        <Route path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/reset-password" component={ResetPassword} />
+        <Route path="/todo" component={Todo} />
+      </Switch>
+    </Router>
   );
 }
 
