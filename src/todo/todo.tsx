@@ -59,17 +59,6 @@ const Todo: React.FC = () => {
     // });
   };
 
-  React.useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      console.log(user)
-      if (!user) {
-        history.push("/login");
-      }
-    });
-    fetchTodo();
-    return unsubscribe;
-  }, []);
-
   const onLogout = async () => {
     await auth.signOut();
     history.push("/login");
