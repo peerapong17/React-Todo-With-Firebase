@@ -41,13 +41,14 @@ export const login =
   };
 
 export const register =
-  (email: string, password: string, history: any) =>
+  (username: string, email: string, password: string, history: any) =>
   async (dispatch: Dispatch<AuthAction>): Promise<void> => {
     dispatch({
       type: authActionTypes.REGISTER,
     });
     try {
-      await auth.createUserWithEmailAndPassword(email, password);
+      const res =await auth.createUserWithEmailAndPassword(email, password)
+      await res.user?.updateProfile({displayName: username})
       dispatch({
         type: authActionTypes.REGISTER_SUCCESS,
         payload: "Create user success",

@@ -8,7 +8,6 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { User } from "../yub/model";
 import { Link, useHistory } from "react-router-dom";
 import { useStyles } from "./styles.js";
 import { useSelector } from "react-redux";
@@ -17,8 +16,8 @@ import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { useAuthAction } from "../../state/useActions/auth";
 import google from "../../assets/images/google.jpg";
 import { useFormik } from "formik";
-import { initialValue } from "../yub/value";
-import { validationSchema } from "../yub/schema";
+import { loginState } from "../yub/value";
+import { loginValidationSchema } from "../yub/schema/loginSchema";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -32,8 +31,8 @@ const Login: React.FC = () => {
     (state: RootState) => state.authReducer
   );
   const formik = useFormik({
-    initialValues: initialValue,
-    validationSchema: validationSchema,
+    initialValues: loginState,
+    validationSchema: loginValidationSchema,
     onSubmit: ({ email, password }) => {
       login(email, password, history);
     },

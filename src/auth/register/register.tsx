@@ -14,8 +14,8 @@ import { useAuthAction } from "../../state/useActions/auth";
 import { useSelector } from "react-redux";
 import { RootState } from "../../state/reducers";
 import { useFormik } from "formik";
-import { validationSchema } from "../yub/schema";
-import { initialValue } from "../yub/value";
+import { registerValidationSchema } from "../yub/schema/registerSchema";
+import { registerState } from "../yub/value";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -29,10 +29,10 @@ const Register: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const formik = useFormik({
-    initialValues: initialValue,
-    validationSchema: validationSchema,
-    onSubmit: ({ email, password }) => {
-      register(email, password, history);
+    initialValues: registerState,
+    validationSchema: registerValidationSchema,
+    onSubmit: ({ username, email, password }) => {
+      register(username, email, password, history);
     },
   });
 
@@ -55,9 +55,20 @@ const Register: React.FC = () => {
             <TextField
               className={classes.textField}
               variant="filled"
+              label="Username"
+              value={formik.values.username}
+              name="username"
+              onChange={formik.handleChange}
+              error={formik.touched.username && !!formik.errors.username}
+              helperText={formik.touched.username && formik.errors.username}
+            />
+            <TextField
+              className={classes.textField}
+              variant="filled"
               label="Email"
               value={formik.values.email}
               name="email"
+              type="email"
               onChange={formik.handleChange}
               error={formik.touched.email && !!formik.errors.email}
               helperText={formik.touched.email && formik.errors.email}
@@ -72,6 +83,17 @@ const Register: React.FC = () => {
               onChange={formik.handleChange}
               error={formik.touched.password && !!formik.errors.password}
               helperText={formik.touched.password && formik.errors.password}
+            />
+            <TextField
+              className={classes.textField}
+              variant="filled"
+              label="ConfirmPassowrd"
+              value={formik.values.confirmPassword}
+              name="confirmPassword"
+              type="password"
+              onChange={formik.handleChange}
+              error={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
+              helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
             />
             <Link to="/login" style={{ textDecoration: "none" }}>
               <Typography className={classes.loginLink}>

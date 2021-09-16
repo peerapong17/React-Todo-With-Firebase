@@ -61,6 +61,7 @@ const Todo: React.FC = () => {
 
   React.useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log(user)
       if (!user) {
         history.push("/login");
       }
