@@ -6,7 +6,7 @@ import { useTodoAction } from "../../state/useActions/todo";
 
 const TodoForm: React.FC = () => {
   const classes = useStyles();
-  const { addTodo } = useTodoAction();
+  const { createTodo: addTodo } = useTodoAction();
   const [task, setTask] = React.useState<string>("");
 
   const onClick = () => {

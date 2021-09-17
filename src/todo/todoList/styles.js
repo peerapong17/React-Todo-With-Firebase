@@ -8,7 +8,13 @@ export const useStyles = makeStyles({
     padding: "15px",
     alignItems: "center"
   },
-  resize:{
-    fontSize:25,
+  resize: {
+    fontSize: 24,
+  },
+  task: {
+    flex: 1,
+  },
+  btnContainer: {
+    display: "flex"
   },
 });

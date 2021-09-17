@@ -2,6 +2,7 @@ import { todoActionTypes } from "./../action-types/todo";
 import { TodoAction } from "./../actions/todo";
 import { Dispatch } from "redux";
 import { auth, db, timeStamp } from "../../firebase/firebaseConfig";
+import { Todo } from "../../todo/todoList/todoList";
 
 export const fetchTodo =
   () =>
@@ -11,7 +12,7 @@ export const fetchTodo =
     });
     try {
       db.collection("todos")
-        .orderBy("createdAt", "desc")
+        .where("userId", "==", auth.currentUser?.uid)
         .onSnapshot((snapShot) => {
           const changes = snapShot.docs;
           const filteredData = changes.filter((doc) => {
@@ -30,12 +31,13 @@ export const fetchTodo =
     }
   };
 
-export const addTodo =
+export const createTodo =
   (task: string) =>
   async (dispatch: Dispatch<TodoAction>): Promise<void> => {
     try {
       await db.collection("todos").add({
         task,
+        isCompleted: false,
         createdAt: timeStamp(),
         userId: auth.currentUser?.uid ?? "No User Id",
       });
@@ -46,11 +48,25 @@ export const addTodo =
       });
     }
   };
+
 export const updateTodo =
-  (id: string, task: string) =>
+  (todo: Todo) =>
   async (dispatch: Dispatch<TodoAction>): Promise<void> => {
     try {
-      await db.collection("todos").doc(id).update({ task });
+      await db.collection("todos").doc(todo.id).update({ task: todo.task, isCompleted: todo.isCompleted });
+    } catch (error) {
+      dispatch({
+        type: todoActionTypes.TODO_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+
+  export const checkedTodo =
+  (todo: Todo) =>
+  async (dispatch: Dispatch<TodoAction>): Promise<void> => {
+    try {
+      await db.collection("todos").doc(todo.id).update({ isCompleted: !todo.isCompleted });
     } catch (error) {
       dispatch({
         type: todoActionTypes.TODO_ERROR,

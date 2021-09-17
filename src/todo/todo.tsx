@@ -59,6 +59,10 @@ const Todo: React.FC = () => {
     // });
   };
 
+  React.useEffect(() => {
+    fetchTodo();
+  }, []);
+
   const onLogout = async () => {
     await auth.signOut();
     history.push("/login");
@@ -99,7 +103,7 @@ const Todo: React.FC = () => {
                 color="secondary"
                 className={classes.circular}
               />
-            ) : todoList.length !== 0 ? (
+            ) : todoList && todoList.length !== 0 ? (
               todoList.map((data, i) => {
                 return <TodoList key={i} data={data} />;
               })
