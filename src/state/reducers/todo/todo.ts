@@ -22,6 +22,7 @@ export const todoReducer = (
     case todoActionTypes.FETCH_TODO_SUCCESS:
       return {
         todoList: action.payload.map((doc) => {
+          console.log(doc.data()['createdAt'].toDate().toISOString().split("T")[0])
           return { ...doc.data(), id: doc.id };
         }),
         loading: false,

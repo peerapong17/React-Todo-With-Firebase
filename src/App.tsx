@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Todo from "./todo/todo";
+import TodoMain from "./todo/todo";
 import Login from "./auth/login/login";
 import Register from "./auth/register/register";
 import PrivateRoute from "./route/privatedRoute";
@@ -68,7 +68,7 @@ function App(): JSX.Element {
         <Route exact path="/reset-password" component={ResetPassword} />
         <PrivateRoute
           path="/todo"
-          component={Todo}
+          component={TodoMain}
           authenticated={authentication.authenticated}
         ></PrivateRoute>
       </Switch>

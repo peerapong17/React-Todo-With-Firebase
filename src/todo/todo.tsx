@@ -31,7 +31,7 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const Todo: React.FC = () => {
+const TodoMain: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const { fetchTodo, clerError } = useTodoAction();
@@ -40,28 +40,34 @@ const Todo: React.FC = () => {
   );
   const [open, setOpen] = React.useState<boolean>(false);
 
-  // const [selectedDate, setSelectedDate] = React.useState<Date>(new Date());
-
-  const handleDateChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    // console.log(typeof new Date().toISOString());
-    // console.log(new Date().toISOString());
-    // console.log(e.target.value);
-    // todoList.map((todo) => {
-    //   console.log(todo.createdAt);
-    //   console.log(new Date(todo.createdAt.seconds).toDateString());
-    //   console.log(
-    //     new Date(todo.createdAt.seconds).toLocaleString("en-GB", {
-    //       timeZone: "UTC",
-    //     })
-    //   );
-    // });
-  };
+  const [selectedDate, setSelectedDate] = React.useState<string>(
+    new Date().toISOString().split("T")[0]
+  );
 
   React.useEffect(() => {
     fetchTodo();
   }, []);
+
+  const handleDateChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    console.log(typeof new Date().toISOString());
+    console.log(new Date().toISOString());
+    console.log(e.target.value);
+    todoList.map((todo) => {
+      console.log(todo.createdAt.toDate().toISOString().split("T")[0]);
+      console.log(new Date(todo.createdAt.seconds).toDateString());
+    });
+    setSelectedDate(e.target.value);
+  };
+
+  const dataListener = () => {
+    return [...todoList].filter((todo) => {
+      return (
+        todo.createdAt.toDate().toISOString().split("T")[0] == selectedDate
+      );
+    });
+  };
 
   const onLogout = async () => {
     await auth.signOut();
@@ -104,7 +110,7 @@ const Todo: React.FC = () => {
                 className={classes.circular}
               />
             ) : todoList && todoList.length !== 0 ? (
-              todoList.map((data, i) => {
+              dataListener().map((data, i) => {
                 return <TodoList key={i} data={data} />;
               })
             ) : (
@@ -163,4 +169,4 @@ const Todo: React.FC = () => {
   );
 };
 
-export default Todo;
+export default TodoMain;

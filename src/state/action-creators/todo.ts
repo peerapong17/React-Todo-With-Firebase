@@ -16,7 +16,7 @@ export const fetchTodo =
         .onSnapshot((snapShot) => {
           const changes = snapShot.docs;
           const filteredData = changes.filter((doc) => {
-            return doc.data()["userId"] === auth.currentUser?.uid;
+            return doc.data()["createdAt"] && doc.data()["userId"] === auth.currentUser?.uid;
           });
           dispatch({
             type: todoActionTypes.FETCH_TODO_SUCCESS,

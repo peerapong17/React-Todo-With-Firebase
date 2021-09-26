@@ -12,16 +12,18 @@ import CheckIcon from "@material-ui/icons/Check";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useStyles } from "./styles";
 import { useTodoAction } from "../../state/useActions/todo";
+import moment from 'moment'
 
 export interface Todo {
   id: string;
   task: string;
   isCompleted: boolean;
+  createdAt?: any;
 }
 
 const TodoList: React.FC<{
   data: Todo;
-}> = ({ data: { task, id, isCompleted } }) => {
+}> = ({ data: { task, id, isCompleted, createdAt } }) => {
   const classes = useStyles();
   const { deleteTodo, updateTodo, checkedTodo } = useTodoAction();
   const [todo, setTodo] = React.useState<Todo>({
@@ -70,9 +72,10 @@ const TodoList: React.FC<{
             autoFocus
           />
         ) : (
-          <Typography variant="h5" className={classes.task}>
-            {task}
-          </Typography>
+          <div className={classes.task}>
+              <Typography variant="h5">{task}</Typography>
+              <Typography variant="caption">{moment(createdAt.toDate()).fromNow()}</Typography>
+            </div>
         )}
         <div>
           {isEditting ? (
