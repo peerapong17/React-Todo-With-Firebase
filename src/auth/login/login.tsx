@@ -18,6 +18,7 @@ import google from "../../assets/images/google.jpg";
 import { useFormik } from "formik";
 import { loginState } from "../yub/value";
 import { loginValidationSchema } from "../yub/schema/loginSchema";
+import { useState } from "react";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -26,7 +27,7 @@ function Alert(props: AlertProps) {
 const Login: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { login, signInWithGoogle, clearError } = useAuthAction();
+  const { login, signInWithGoogle, clear } = useAuthAction();
   const { error, loading } = useSelector(
     (state: RootState) => state.authReducer
   );
@@ -39,15 +40,10 @@ const Login: React.FC = () => {
   });
 
   React.useEffect(() => {
-    clearError();
     return () => {
-      clearError();
+      clear();
     };
   }, []);
-
-  const handleClose = () => {
-    clearError();
-  };
 
   return (
     <Container className={classes.container}>
@@ -120,9 +116,9 @@ const Login: React.FC = () => {
           <Snackbar
             open={error !== ""}
             autoHideDuration={6000}
-            onClose={handleClose}
+            onClose={() => clear()}
           >
-            <Alert onClose={handleClose} severity="error">
+            <Alert onClose={() => clear()} severity="error">
               {error}
             </Alert>
           </Snackbar>

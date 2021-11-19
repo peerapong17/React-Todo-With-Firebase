@@ -25,7 +25,7 @@ const Register: React.FC = () => {
   const { error, loading, success } = useSelector(
     (state: RootState) => state.authReducer
   );
-  const { register, clearError } = useAuthAction();
+  const { register, clear } = useAuthAction();
   const classes = useStyles();
   const history = useHistory();
   const formik = useFormik({
@@ -38,13 +38,9 @@ const Register: React.FC = () => {
 
   React.useEffect(() => {
     return () => {
-      clearError();
+      clear();
     };
   }, []);
-
-  const handleClose = () => {
-    clearError();
-  };
 
   return (
     <Container className={classes.container}>
@@ -92,8 +88,13 @@ const Register: React.FC = () => {
               name="confirmPassword"
               type="password"
               onChange={formik.handleChange}
-              error={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
-              helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+              error={
+                formik.touched.confirmPassword &&
+                !!formik.errors.confirmPassword
+              }
+              helperText={
+                formik.touched.confirmPassword && formik.errors.confirmPassword
+              }
             />
             <Link to="/login" style={{ textDecoration: "none" }}>
               <Typography className={classes.loginLink}>
@@ -118,9 +119,9 @@ const Register: React.FC = () => {
           <Snackbar
             open={error !== ""}
             autoHideDuration={6000}
-            onClose={handleClose}
+            onClose={() => clear()}
           >
-            <Alert onClose={handleClose} severity="error">
+            <Alert onClose={() => clear()} severity="error">
               {error}
             </Alert>
           </Snackbar>
@@ -129,9 +130,9 @@ const Register: React.FC = () => {
           <Snackbar
             open={success !== ""}
             autoHideDuration={6000}
-            onClose={handleClose}
+            onClose={() => clear()}
           >
-            <Alert onClose={handleClose} severity="success">
+            <Alert onClose={() => clear()} severity="success">
               {success}
             </Alert>
           </Snackbar>

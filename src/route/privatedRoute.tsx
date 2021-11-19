@@ -12,4 +12,5 @@ const PrivateRoute: React.FC<{
     <Redirect to="/login" />
   );
 };
+
 export default PrivateRoute;

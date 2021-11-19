@@ -8,66 +8,27 @@ const initialState: AuthState = {
   success: "",
 };
 
-export const authReducer = (
-  state = initialState,
-  action: AuthAction
-): AuthState => {
+export const auth = (state = initialState, action: AuthAction): AuthState => {
   switch (action.type) {
-    case authActionTypes.LOGIN:
-      return {
-        success: "",
-        error: "",
-        loading: true,
-      };
-    case authActionTypes.LOGIN_SUCCESS:
-      return {
-        success: "",
-        loading: false,
-        error: "",
-      };
-    case authActionTypes.LOGIN_ERROR:
-      return {
-        loading: false,
-        success: "",
-        error: action.payload,
-      };
-    case authActionTypes.REGISTER:
+    case authActionTypes.LOADING:
       return {
         success: "",
         loading: true,
         error: "",
       };
-    case authActionTypes.REGISTER_SUCCESS:
-      return {
-        error: "",
-        loading: false,
-        success: action.payload,
-      };
-    case authActionTypes.REGISTER_ERROR:
-      return {
-        success: "",
-        loading: false,
-        error: action.payload,
-      };
-    case authActionTypes.RESET_PASSWORD:
-      return {
-        success: "",
-        loading: true,
-        error: "",
-      };
-    case authActionTypes.RESET_PASSWORD_SUCCESS:
+    case authActionTypes.SUCCESS:
       return {
         success: action.payload,
         loading: false,
         error: "",
       };
-    case authActionTypes.RESET_PASSWORD_ERROR:
+    case authActionTypes.ERROR:
       return {
         success: "",
         loading: false,
         error: action.payload,
       };
-    case authActionTypes.CLEAR_ERROR:
+    case authActionTypes.CLEAR:
       return {
         success: "",
         loading: false,

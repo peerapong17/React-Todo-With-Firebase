@@ -8,7 +8,7 @@ const initialState: TodoState = {
   error: "",
 };
 
-export const todoReducer = (
+export const todo = (
   state = initialState,
   action: TodoAction
 ): TodoState => {
@@ -22,19 +22,18 @@ export const todoReducer = (
     case todoActionTypes.FETCH_TODO_SUCCESS:
       return {
         todoList: action.payload.map((doc) => {
-          console.log(doc.data()['createdAt'].toDate().toISOString().split("T")[0])
           return { ...doc.data(), id: doc.id };
         }),
         loading: false,
         error: "",
       };
-    case todoActionTypes.TODO_ERROR:
+    case todoActionTypes.ERROR:
       return {
         todoList: [],
         loading: false,
         error: action.payload,
       };
-    case todoActionTypes.CLEAR_ERROR:
+    case todoActionTypes.CLEAR:
       return {
         ...state,
         loading: false,

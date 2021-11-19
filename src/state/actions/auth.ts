@@ -1,49 +1,18 @@
 import { authActionTypes } from "../action-types/auth";
 
-interface Login {
-  type: authActionTypes.LOGIN;
+interface Loading {
+  type: authActionTypes.LOADING;
 }
-interface LoginSuccess {
-  type: authActionTypes.LOGIN_SUCCESS;
-}
-interface LoginError {
-  type: authActionTypes.LOGIN_ERROR;
+interface Success {
+  type: authActionTypes.SUCCESS;
   payload: string;
 }
-interface Register {
-  type: authActionTypes.REGISTER;
-}
-interface RegisterSuccess {
-  type: authActionTypes.REGISTER_SUCCESS;
+interface Error {
+  type: authActionTypes.ERROR;
   payload: string;
 }
-interface RegisterError {
-  type: authActionTypes.REGISTER_ERROR;
-  payload: string;
-}
-interface ResetPassword {
-  type: authActionTypes.RESET_PASSWORD;
-}
-interface ResetPasswordSuccess {
-  type: authActionTypes.RESET_PASSWORD_SUCCESS;
-  payload: string;
-}
-interface ResetPasswordError {
-  type: authActionTypes.RESET_PASSWORD_ERROR;
-  payload: string;
-}
-interface ClearError {
-  type: authActionTypes.CLEAR_ERROR;
+interface Clear {
+  type: authActionTypes.CLEAR;
 }
 
-export type AuthAction =
-  | Register
-  | RegisterError
-  | RegisterSuccess
-  | Login
-  | LoginError
-  | LoginSuccess
-  | ResetPassword
-  | ResetPasswordSuccess
-  | ResetPasswordError
-  | ClearError;
+export type AuthAction = Loading | Success | Error | Clear;

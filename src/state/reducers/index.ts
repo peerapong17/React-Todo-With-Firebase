@@ -1,11 +1,11 @@
-import { authReducer } from './auth/auth';
-import { todoReducer } from './todo/todo';
+import { auth } from './auth/auth';
+import { todo } from './todo/todo';
 import { combineReducers } from "redux";
 
 
 const reducers = combineReducers({
-    authReducer,
-    todoReducer
+    authReducer: auth,
+    todoReducer: todo
 })
 
 

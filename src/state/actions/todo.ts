@@ -13,12 +13,12 @@ interface UpdateTodo {
 interface DeleteTodo {
   type: todoActionTypes.DELETE_TODO;
 }
-interface TodoError {
-  type: todoActionTypes.TODO_ERROR;
+interface Error {
+  type: todoActionTypes.ERROR;
   payload: string;
 }
-interface ClearError {
-  type: todoActionTypes.CLEAR_ERROR;
+interface Clear {
+  type: todoActionTypes.CLEAR;
 }
 
 export type TodoAction =
@@ -26,5 +26,5 @@ export type TodoAction =
   | FetchTodoSuccess
   | UpdateTodo
   | DeleteTodo
-  | TodoError
-  | ClearError;
+  | Error
+  | Clear;

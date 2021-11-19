@@ -7,12 +7,13 @@ export const login =
   (email: string, password: string, history: any) =>
   async (dispatch: Dispatch<AuthAction>): Promise<void> => {
     dispatch({
-      type: authActionTypes.LOGIN,
+      type: authActionTypes.LOADING,
     });
     try {
       await auth.signInWithEmailAndPassword(email, password);
       dispatch({
-        type: authActionTypes.LOGIN_SUCCESS,
+        type: authActionTypes.SUCCESS,
+        payload: "",
       });
       setTimeout(() => {
         history.push("/todo");
@@ -21,20 +22,20 @@ export const login =
       console.log(error);
       if (error.code === "auth/wrong-password") {
         dispatch({
-          type: authActionTypes.LOGIN_ERROR,
+          type: authActionTypes.ERROR,
           payload: "Password is not correct",
         });
         return;
       }
       if (error.code === "auth/user-not-found") {
         dispatch({
-          type: authActionTypes.LOGIN_ERROR,
+          type: authActionTypes.ERROR,
           payload: "Username is not correct or This user does not exist",
         });
         return;
       }
       dispatch({
-        type: authActionTypes.LOGIN_ERROR,
+        type: authActionTypes.ERROR,
         payload: error.message,
       });
     }
@@ -44,13 +45,13 @@ export const register =
   (username: string, email: string, password: string, history: any) =>
   async (dispatch: Dispatch<AuthAction>): Promise<void> => {
     dispatch({
-      type: authActionTypes.REGISTER,
+      type: authActionTypes.LOADING,
     });
     try {
-      const res =await auth.createUserWithEmailAndPassword(email, password)
-      await res.user?.updateProfile({displayName: username})
+      const res = await auth.createUserWithEmailAndPassword(email, password);
+      await res.user?.updateProfile({ displayName: username });
       dispatch({
-        type: authActionTypes.REGISTER_SUCCESS,
+        type: authActionTypes.SUCCESS,
         payload: "Create user success",
       });
       setTimeout(() => {
@@ -58,7 +59,7 @@ export const register =
       }, 3000);
     } catch (error) {
       dispatch({
-        type: authActionTypes.REGISTER_ERROR,
+        type: authActionTypes.ERROR,
         payload: error.message,
       });
     }
@@ -68,12 +69,12 @@ export const resetPassword =
   (email: string, history: any) =>
   async (dispatch: Dispatch<AuthAction>): Promise<void> => {
     dispatch({
-      type: authActionTypes.RESET_PASSWORD,
+      type: authActionTypes.LOADING,
     });
     try {
       await auth.sendPasswordResetEmail(email);
       dispatch({
-        type: authActionTypes.RESET_PASSWORD_SUCCESS,
+        type: authActionTypes.SUCCESS,
         payload: "Password reset link was sent to your Email",
       });
       setTimeout(() => {
@@ -83,13 +84,13 @@ export const resetPassword =
       console.log(error);
       if (error.code === "auth/user-not-found") {
         dispatch({
-          type: authActionTypes.RESET_PASSWORD_ERROR,
+          type: authActionTypes.ERROR,
           payload: "Email could be wrong or This email does not exist",
         });
         return;
       }
       dispatch({
-        type: authActionTypes.RESET_PASSWORD_ERROR,
+        type: authActionTypes.ERROR,
         payload: error.message,
       });
     }
@@ -99,28 +100,29 @@ export const signInWithGoogle =
   (history: any) =>
   async (dispatch: Dispatch<AuthAction>): Promise<void> => {
     dispatch({
-      type: authActionTypes.LOGIN,
+      type: authActionTypes.LOADING,
     });
     try {
       await auth.signInWithPopup(googleProvider);
       dispatch({
-        type: authActionTypes.LOGIN_SUCCESS,
+        type: authActionTypes.SUCCESS,
+        payload: ""
       });
       setTimeout(() => {
         history.push("/todo");
       }, 1000);
     } catch (error) {
       dispatch({
-        type: authActionTypes.LOGIN_ERROR,
+        type: authActionTypes.ERROR,
         payload: error.message,
       });
     }
   };
 
-export const clearError =
+export const clear =
   () =>
   (dispatch: Dispatch<AuthAction>): void => {
     dispatch({
-      type: authActionTypes.CLEAR_ERROR,
+      type: authActionTypes.CLEAR,
     });
   };

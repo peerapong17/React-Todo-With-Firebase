@@ -34,7 +34,7 @@ function Alert(props: AlertProps) {
 const TodoMain: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { fetchTodo, clerError } = useTodoAction();
+  const { fetchTodoList, clear } = useTodoAction();
   const { loading, error, todoList } = useSelector(
     (state: RootState) => state.todoReducer
   );
@@ -45,12 +45,13 @@ const TodoMain: React.FC = () => {
   );
 
   React.useEffect(() => {
-    fetchTodo();
+    fetchTodoList();
   }, []);
 
   const handleDateChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
+    console.log(new Date());
     console.log(typeof new Date().toISOString());
     console.log(new Date().toISOString());
     console.log(e.target.value);
@@ -72,10 +73,6 @@ const TodoMain: React.FC = () => {
   const onLogout = async () => {
     await auth.signOut();
     history.push("/login");
-  };
-
-  const handleClose = () => {
-    clerError();
   };
 
   return (
@@ -109,7 +106,7 @@ const TodoMain: React.FC = () => {
                 color="secondary"
                 className={classes.circular}
               />
-            ) : todoList && todoList.length !== 0 ? (
+            ) : dataListener().length > 0 ? (
               dataListener().map((data, i) => {
                 return <TodoList key={i} data={data} />;
               })
@@ -137,9 +134,9 @@ const TodoMain: React.FC = () => {
         <Snackbar
           open={error !== ""}
           autoHideDuration={6000}
-          onClose={handleClose}
+          onClose={() => clear()}
         >
-          <Alert onClose={handleClose} severity="error">
+          <Alert onClose={() => clear()} severity="error">
             {error}
           </Alert>
         </Snackbar>

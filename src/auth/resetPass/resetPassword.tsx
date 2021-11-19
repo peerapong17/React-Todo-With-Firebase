@@ -24,7 +24,7 @@ const ResetPassword: React.FC = () => {
   const { error, loading, success } = useSelector(
     (state: RootState) => state.authReducer
   );
-  const { clearError, resetPassword } = useAuthAction();
+  const { clear: clearError, resetPassword } = useAuthAction();
   const classes = useStyles();
   const history = useHistory();
   const formik = useFormik({
